@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 const connectDb = require("./config/database");
 require("./config/database");
 const User = require("./models/user");
+const user = require("./models/user");
 connectDb()
   .then(() => {
     console.log("Connection successful! ");
@@ -15,16 +17,70 @@ connectDb()
   });
 
 app.post("/signup", async (req, res) => {
-  const user = new User({
-    firstName: "DImple",
-    lastName: "Mathe",
-    emailId: "sakshimathe0@gmail.com",
-    password: "dimple",
-    age: 21,
-  });
+  console.log(req.body);
+  const user = new User(req.body);
   try {
     await user.save();
     res.send("User created successfully");
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const userEmail = req.body.emailId;
+    const user = await User.findOne({ emailId: userEmail });
+    if (!user) {
+      throw new Error("User not found");
+    } else {
+      res.send(user);
+    }
+  } catch (error) {
+    res.status(400).send(error.message || error);
+  }
+});
+
+app.delete("/users", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    await User.findByIdAndDelete(userId);
+    res.send("User deleted successfully");
+  } catch (error) {
+    res.status(400).send("User not  deleted");
+  }
+});
+
+app.patch("/users", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const data = req.body;
+
+    await User.findByIdAndUpdate({ _id: userId }, data);
+    console.log(data);
+    res.send("User updated successfully");
+  } catch (error) {
+    res.status(400).send("User not updated");
+  }
+});
+
+app.get("/findById", async (req, res) => {
+  try {
+    const userID = req.body.userId;
+    const findUser = await User.findById({ _id: userID });
+    if (!findUser) {
+      throw new Error("User not found");
+    } else {
+      res.send(findUser);
+    }
+  } catch {
+    res.status(400).send("User not found");
+  }
+});
+app.get("/feed", async (req, res) => {
+  try {
+    const feed = await User.find({});
+    res.send(feed);
   } catch (error) {
     res.status(400).send(error.message);
   }
