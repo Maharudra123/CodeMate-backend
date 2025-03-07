@@ -4,7 +4,6 @@ app.use(express.json());
 const connectDb = require("./config/database");
 require("./config/database");
 const User = require("./models/user");
-const user = require("./models/user");
 connectDb()
   .then(() => {
     console.log("Connection successful! ");
@@ -51,16 +50,34 @@ app.delete("/users", async (req, res) => {
   }
 });
 
-app.patch("/users", async (req, res) => {
+app.patch("/users/:userId", async (req, res) => {
   try {
-    const userId = req.body.userId;
+    const isSkillsUpdateAllowed = req.body.skills.length <= 15;
+    if (!isSkillsUpdateAllowed) {
+      throw new Error("max skills allowed is 20");
+    }
+    const ALLOWED_UPDATES = [
+      "firstName",
+      "lastName",
+      "password",
+      "age",
+      "imgURL",
+      "skills",
+    ];
+    const isUpdateAllowed = Object.keys(req.body).every((update) =>
+      ALLOWED_UPDATES.includes(update)
+    );
+    if (!isUpdateAllowed) {
+      throw new Error("Invalid updates");
+    }
+    const userId = req.params?.userId;
     const data = req.body;
 
     await User.findByIdAndUpdate({ _id: userId }, data);
     console.log(data);
     res.send("User updated successfully");
   } catch (error) {
-    res.status(400).send("User not updated");
+    res.status(400).send("User not updated" + error.message);
   }
 });
 
