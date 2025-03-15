@@ -1,6 +1,7 @@
 const express = require("express");
 const authMiddleware = require("../middlewares/auth");
 const conncetionModel = require("../models/connectionRequest");
+const user = require("../models/user");
 const userRouter = express.Router();
 
 userRouter.get("/user/requests/recived", authMiddleware, async (req, res) => {
@@ -64,4 +65,40 @@ userRouter.get("/user/connections", authMiddleware, async (req, res) => {
   }
 });
 
+userRouter.get("/feed", authMiddleware, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+    const page = parseInt(req.query.page) || 1; // Default to page 1
+    const limit = parseInt(req.query.limit) || 10; // Default limit
+    const skip = (page - 1) * limit;
+    if (!loggedInUser) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const connectionRequest = await conncetionModel
+      .find({
+        $or: [{ toUserId: loggedInUser._id }, { fromUserId: loggedInUser._id }],
+      })
+      .select("toUserId fromUserId");
+
+    const hiddenUsersFromFeed = new Set();
+    hiddenUsersFromFeed.add(loggedInUser._id.toString());
+    connectionRequest.forEach((request) => {
+      hiddenUsersFromFeed.add(request.toUserId.toString());
+      hiddenUsersFromFeed.add(request.fromUserId.toString());
+    });
+
+    console.log(hiddenUsersFromFeed);
+
+    const users = await user
+      .find({
+        _id: { $nin: [...hiddenUsersFromFeed] },
+      })
+      .select("firstName lastName photoURL age gender about skills")
+      .skip(skip)
+      .limit(limit);
+    res.send(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = userRouter;

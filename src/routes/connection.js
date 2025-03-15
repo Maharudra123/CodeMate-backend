@@ -58,7 +58,6 @@ connectionRouter.post(
   }
 );
 
-// 📌 Review Connection Request
 connectionRouter.post(
   "/request/review/:status/:requestedId",
   authMiddleware,
@@ -77,11 +76,6 @@ connectionRouter.post(
         return res.status(400).json({ message: "Invalid status" });
       }
 
-      console.log("🔍 Reviewing Connection Request:");
-      console.log("Requested ID:", requestedId);
-      console.log("Logged-in User ID:", loggedInUser._id);
-
-      // ✅ Convert to ObjectId
       const requestObjectId = new mongoose.Types.ObjectId(requestedId);
 
       const connectionRequest = await connectionModel.findOne({
