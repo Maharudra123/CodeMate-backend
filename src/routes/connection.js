@@ -21,7 +21,7 @@ connectionRouter.post(
       const toUserId = req.params.toUserId;
       const status = req.params.status;
 
-      const allowedStatuses = ["interested", "rejected"];
+      const allowedStatuses = ["interested", "ignored"];
       if (!allowedStatuses.includes(status)) {
         return res.status(400).json({ message: "Invalid status" });
       }

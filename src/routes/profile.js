@@ -17,9 +17,16 @@ profileRouter.get("/profile", authMiddleware, async (req, res) => {
 profileRouter.patch("/profile/edit", authMiddleware, async (req, res) => {
   try {
     const user = req.user;
+
+    // Validate edits
+    const isEditAllowed = validateEditProfileData(req);
+    if (!isEditAllowed) {
+      throw new Error("Invalid updates. You can only update allowed fields.");
+    }
+
     Object.keys(req.body).forEach((key) => (user[key] = req.body[key]));
     await user.save();
-    res.send("updated successfully" + user);
+    res.send("Updated successfully: " + JSON.stringify(user));
   } catch (error) {
     res.status(400).send(error.message);
   }

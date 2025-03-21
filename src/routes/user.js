@@ -18,7 +18,7 @@ userRouter.get("/user/requests/recived", authMiddleware, async (req, res) => {
       })
       .populate(
         "fromUserId", // This should be correct
-        "firstName lastName photoURL age gender about skills"
+        "firstName lastName imgURL age gender about skills"
       );
 
     if (!connectionRequests) {
@@ -47,7 +47,7 @@ userRouter.get("/user/connections", authMiddleware, async (req, res) => {
       })
       .populate(
         "fromUserId",
-        "firstName lastName photoURL age gender about skills"
+        "firstName lastName imgURL age gender about skills"
       )
       .populate(
         "toUserId",
@@ -93,7 +93,7 @@ userRouter.get("/feed", authMiddleware, async (req, res) => {
       .find({
         _id: { $nin: [...hiddenUsersFromFeed] },
       })
-      .select("firstName lastName photoURL age gender about skills")
+      .select("firstName lastName imgURL age gender about skills ")
       .skip(skip)
       .limit(limit);
     res.send(users);

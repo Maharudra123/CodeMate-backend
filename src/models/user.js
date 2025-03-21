@@ -39,10 +39,12 @@ const userSchema = new mongoose.Schema(
       type: Number,
       min: 18,
     },
+    about: {
+      type: String,
+    },
     imgURL: {
       type: String,
-      default:
-        "https://res.cloudinary.com/devtinder/image/upload/v1623663942/blank-profile-picture-973460_1280_zxw1zv.png",
+
       validate(value) {
         if (!validator.isURL(value)) {
           throw new Error("invalid image url");
