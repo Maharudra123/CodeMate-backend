@@ -19,14 +19,17 @@ app.use("/", authRouter);
 app.use("/", connectionRouter);
 app.use("/", profileRouter);
 app.use("/", userRouter);
+
 const connectDb = require("./config/database");
+
 const user = require("./models/user");
+const PORT = process.env.PORT;
 require("./config/database");
 connectDb()
   .then(() => {
     console.log("Connection successful! ");
-    app.listen(7777, () => {
-      console.log("Server running on port 7777");
+    app.listen(PORT, () => {
+      console.log(`"Server running on port ${PORT}"`);
     });
   })
   .catch((err) => {
