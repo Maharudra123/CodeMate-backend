@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://tinder-for-geeks.vercel.app"],
     credentials: true,
   })
 );
@@ -23,7 +23,7 @@ app.use("/", userRouter);
 const connectDb = require("./config/database");
 
 const user = require("./models/user");
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 7777;
 require("./config/database");
 connectDb()
   .then(() => {
