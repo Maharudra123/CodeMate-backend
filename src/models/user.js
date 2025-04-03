@@ -25,6 +25,13 @@ const userSchema = new mongoose.Schema(
       },
       trim: true,
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
+    membershipType: {
+      type: String,
+    },
     password: {
       type: String,
       required: true,

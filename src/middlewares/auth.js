@@ -4,11 +4,10 @@ const User = require("../models/user");
 const authMiddleware = async (req, res, next) => {
   try {
     const token = req.cookies.token;
-    console.log(token);
     if (!token) {
       throw new Error("token not found");
     }
-    const decoded = jwt.verify(token, "itsokyash_");
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const { _id } = decoded;
     const user = await User.findById(_id);
     if (!user) {
