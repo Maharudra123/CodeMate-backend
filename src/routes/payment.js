@@ -76,7 +76,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     res.status(500).json(error.message);
   }
 });
-paymentRouter.post("/payment/verify", authMiddleware, async (req, res) => {
+paymentRouter.get("/payment/verify", authMiddleware, async (req, res) => {
   const user = req.user.toJSON();
   console.log(user);
   if (user.isPremium) {
