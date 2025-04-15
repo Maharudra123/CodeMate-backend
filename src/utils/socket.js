@@ -5,7 +5,7 @@ const User = require("../models/user"); // Changed from lowercase to uppercase f
 const initializeSocket = (server) => {
   const io = socket(server, {
     cors: {
-      origin: ["http://localhost:5173", "https://devtinder-en01.onrender.com"],
+      origin: ["http://localhost:5173", "https://tinder-for-geeks.vercel.app"],
     },
   });
 
