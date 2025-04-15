@@ -25,6 +25,19 @@ const userSchema = new mongoose.Schema(
       },
       trim: true,
     },
+    lastSeen: {
+      type: Date,
+      default: Date.now,
+    },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
+    connections: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "User",
+      default: [],
+    },
     isPremium: {
       type: Boolean,
       default: false,
@@ -51,7 +64,8 @@ const userSchema = new mongoose.Schema(
     },
     imgURL: {
       type: String,
-
+      default:
+        "https://initialcommit.com/img/initialcommit/computer-scientists-who-made-history-4.jpg",
       validate(value) {
         if (!validator.isURL(value)) {
           throw new Error("invalid image url");

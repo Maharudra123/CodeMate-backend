@@ -93,7 +93,7 @@ userRouter.get("/feed", authMiddleware, async (req, res) => {
       .find({
         _id: { $nin: [...hiddenUsersFromFeed] },
       })
-      .select("firstName lastName imgURL age gender about skills ")
+      .select("firstName lastName imgURL age gender about skills isPremium")
       .skip(skip)
       .limit(limit);
     res.send(users);

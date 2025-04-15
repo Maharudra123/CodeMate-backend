@@ -28,7 +28,7 @@ profileRouter.patch("/profile/edit", authMiddleware, async (req, res) => {
     await user.save();
     res.send("Updated successfully: " + JSON.stringify(user));
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send(error.message + "all fields are required!");
   }
 });
 

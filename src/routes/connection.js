@@ -12,7 +12,7 @@ connectionRouter.post(
   authMiddleware,
   async (req, res) => {
     try {
-      const user = req.user; // ❌ Removed unnecessary `await`
+      const user = req.user;
       if (!user) {
         throw new Error("User not found");
       }
@@ -23,7 +23,7 @@ connectionRouter.post(
 
       const allowedStatuses = ["interested", "ignored"];
       if (!allowedStatuses.includes(status)) {
-        return res.status(400).json({ message: "Invalid status" });
+        return res.status(400).json({ message: "Invalid status" + status });
       }
 
       const toUser = await User.findById(toUserId);
@@ -64,10 +64,6 @@ connectionRouter.post(
   async (req, res) => {
     try {
       const loggedInUser = req.user;
-      if (!loggedInUser) {
-        throw new Error("User not found");
-      }
-
       const status = req.params.status;
       const requestedId = req.params.requestedId;
 
@@ -76,10 +72,10 @@ connectionRouter.post(
         return res.status(400).json({ message: "Invalid status" });
       }
 
-      const requestObjectId = new mongoose.Types.ObjectId(requestedId);
+      // const requestObjectId = new mongoose.Types.ObjectId(requestedId);
 
       const connectionRequest = await connectionModel.findOne({
-        _id: requestObjectId,
+        _id: requestedId,
         toUserId: loggedInUser._id,
         status: "interested",
       });
@@ -92,14 +88,60 @@ connectionRouter.post(
       }
 
       connectionRequest.status = status;
-      await connectionRequest.save();
+      const data = await connectionRequest.save();
 
-      res.json({ message: "Connection request reviewed successfully" });
+      res.json({
+        message: "Connection request reviewed successfully" + status,
+        data,
+      });
     } catch (error) {
       console.error("🔥 Error reviewing request:", error);
       res.status(400).send(error.message);
     }
   }
 );
+// Add this to your user route or wherever you fetch connections
+// Get all connections for a specific user
+connectionRouter.get("/connections", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    // Find all accepted connections where the user is either the sender or receiver
+    const connections = await connectionModel
+      .find({
+        $or: [
+          { fromUserId: userId, status: "accepted" },
+          { toUserId: userId, status: "accepted" },
+        ],
+      })
+      .populate("fromUserId toUserId");
+
+    // Format the connections to show the other user in each connection
+    const formattedConnections = connections.map((conn) => {
+      // If the current user is the fromUser, return the toUser details, otherwise return the fromUser details
+      const connectionUser = conn.fromUserId._id.equals(userId)
+        ? conn.toUserId
+        : conn.fromUserId;
+
+      return {
+        connectionId: conn._id,
+        user: {
+          _id: connectionUser._id,
+          firstName: connectionUser.firstName,
+          lastName: connectionUser.lastName,
+          imgURL: connectionUser.imgURL,
+          age: connectionUser.age,
+          gender: connectionUser.gender,
+          about: connectionUser.about,
+          // Add any other user fields you want to include
+        },
+      };
+    });
+
+    res.json({ data: formattedConnections });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+});
 
 module.exports = connectionRouter;
