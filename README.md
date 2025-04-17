@@ -26,8 +26,10 @@ The official backend for **DevTinder**, a modern platform that connects develope
 ✅ RESTful API for user management, matches, and messaging  
 ✅ JWT-based secure authentication and authorization  
 ✅ Socket.io-based real-time chat  
-✅ Rate limiting and middleware protection  
-✅ Modular route/controller structure for scalability  
+✅ Middleware protection  
+✅ Razorpay integration  
+✅ CRON Jobs
+✅ Modular route structure for scalability  
 ✅ Environment-based configuration for easy deployment
 
 ---
