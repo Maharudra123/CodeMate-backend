@@ -1,55 +1,66 @@
-# DevTinder API - The Backend Powering Developer Connections 🔧
+### 🔧 CodeMate API – The Backend Powering Developer Connections
 
-The official backend for **DevTinder**, a modern platform that connects developers through code, conversation, and collaboration.
-
----
-
-## 🌐 Live App
-
-🔗 Frontend Demo: [DevTinder Web](https://tinder-for-geeks.vercel.app/)
+The official backend for **CodeMate**, a modern platform that connects developers through code, conversation, and collaboration.
 
 ---
 
-## ⚙️ Tech Stack
+### 🌐 Live App
 
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB Atlas
-- **Real-time:** Socket.io
-- **Authentication:** JWT
-- **Hosting:** Render
-- **Security:** Helmet, CORS, Rate Limiting
+- 🔗 **Frontend Demo:** [CodeMate Web](https://code-mate-frontend-alpha.vercel.app/landing)  
+- 🔗 **Backend API:** [https://codemate-backend-ffrc.onrender.com](https://codemate-backend-ffrc.onrender.com)
 
 ---
 
-## ✨ Features
+### ⚙️ Tech Stack
 
-✅ RESTful API for user management, matches, and messaging  
-✅ JWT-based secure authentication and authorization  
-✅ Socket.io-based real-time chat  
-✅ Middleware protection  
-✅ Razorpay integration  
-✅ CRON Jobs
-✅ Modular route structure for scalability  
-✅ Environment-based configuration for easy deployment
+- **Backend:** Node.js, Express.js  
+- **Database:** MongoDB Atlas  
+- **Real-time Communication:** Socket.io  
+- **Authentication:** JWT  
+- **Payment Integration:** Razorpay  
+- **Scheduling:** node-cron  
+- **Hosting:** Render  
+- **Security:** CORS, Helmet, Rate Limiting
 
 ---
 
-## 🚀 Getting Started
+### ✨ Features
 
-### 🔧 Prerequisites
+- ✅ RESTful APIs for users, messages, and match logic  
+- ✅ JWT-based authentication and authorization  
+- ✅ Real-time private chat using Socket.io  
+- ✅ Razorpay payment integration & webhook handling  
+- ✅ Membership system with status management  
+- ✅ CRON jobs for scheduling tasks  
+- ✅ Modular folder structure for easy scalability  
+- ✅ Environment-based config management
+
+---
+
+### 🚀 Getting Started
+
+#### 🔧 Prerequisites
 
 - Node.js (v14 or higher)
-- MongoDB URI (Local or Atlas)
+- MongoDB URI (local or Atlas)
 
 ---
+
+### 👤 Author
+ Maharudra Ganjure
+
+🔗 GitHub: @maharudra123(https://github.com/Maharudra123/)
+
+🌐 Portfolio: (https://maharudra.pythonanywhere.com)
+
+💼 LinkedIn: @maharudra-ganjure(https://www.linkedin.com/in/maharudra-ganjure/)
 
 ### 📦 Installation
 
 ```bash
 # Clone the repository
-git clone https://github.com/yashbhidawe/devTinder.git
-cd devTinder
+git clone https://github.com/Maharudra123/CodeMate-backend.git
+cd CodeMate-backend
 
 # Install dependencies
 npm install
-```
