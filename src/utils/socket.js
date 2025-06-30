@@ -64,7 +64,7 @@ const initializeSocket = (server) => {
             message: message,
             firstName: firstName,
             senderId: userId,
-            timestamp: new Date().toISOString(),
+            timeStamp: new Date().toISOString(),
           });
           console.log(`firstName: ${firstName}, message: ${message}`);
         } catch (error) {
