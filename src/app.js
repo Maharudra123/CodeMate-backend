@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://tinder-for-geeks.vercel.app"],
+    origin: ["http://localhost:5173", "https://code-mate-frontend-alpha.vercel.app/landing"],
     credentials: true,
   })
 );
