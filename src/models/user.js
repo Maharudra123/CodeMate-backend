@@ -65,7 +65,7 @@ const userSchema = new mongoose.Schema(
     imgURL: {
       type: String,
       default:
-        "https://initialcommit.com/img/initialcommit/computer-scientists-who-made-history-4.jpg",
+        "https://img.freepik.com/premium-psd/contact-icon-illustration-isolated_23-2151903357.jpg?semt=ais_items_boosted&w=740",
       validate(value) {
         if (!validator.isURL(value)) {
           throw new Error("invalid image url");
@@ -91,7 +91,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.methods.getJWT = async function () {
   const user = this;
-  const token = await jwt.sign({ _id: user._id }, "itsokyash_", {
+  const token = await jwt.sign({ _id: user._id }, "Rudra@007", {
     expiresIn: "7 days",
   });
   return token;
